@@ -9,16 +9,16 @@
 	function updateVariables() {
 		if (hours < 12 && hours >= 5) {
 			greeting = 'Good Morning, ' + name;
-			gif = 'https://i.pinimg.com/originals/40/e6/7b/40e67b523c561b4a52c763413683ab99.jpg'
+			gif = 'backgrounds/morning.jpeg'
 		} else if (hours < 18 && hours >= 12) {
 			greeting = 'Good Afternoon, ' + name;
-			gif = 'https://wallpaperaccess.com/full/785654.gif'
+			gif = 'backgrounds/afternoon.gif'
 		} else if (hours < 23 && hours >= 18) {
 			greeting = 'Good Evening, ' + name;
-			gif = 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.pinimg.com%2Foriginals%2F64%2F05%2F31%2F6405318ac146473a95bfbdcec2b32943.gif&f=1&nofb=1'
+			gif = 'backgrounds/evening.gif'
 		} else {
 			greeting = 'Good Night, ' + name;
-			gif = 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcutewallpaper.org%2F21%2F1920x1080-gif%2FPixel-GIF-on-GIFER-by-Arcaneseeker.gif&f=1&nofb=1'
+			gif = 'backgrounds/night.gif'
 		}
 		document.body.style.backgroundImage = `url(${gif})`
 	}
@@ -81,7 +81,7 @@
 		padding-top: 200px;
 		font-family: "Fira Code", serif;
 		color: white;
-		background: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.4)), url('https://i.pinimg.com/originals/40/e6/7b/40e67b523c561b4a52c763413683ab99.jpg') center;
+		background: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.8)), center;
 		background-size: auto 100%;
 	}
 
@@ -93,7 +93,7 @@
 		max-width: 40%;
 		margin: 0 auto;
 		text-align: center;
-		background: linear-gradient( rgba(0, 0, 10, 0.5), rgba(0, 0, 10, 0.7))
+		background: linear-gradient( rgba(0, 0, 10, 0.6), rgba(0, 0, 10, 0.8))
 	}
 
 	#greeting {
@@ -104,6 +104,11 @@
 	form {
 		padding-top: 50px;
 		padding-bottom: 50px;
+	}
+
+	input {
+		min-width: 300px;
+		margin-right: 5px;
 	}
 
 	table {
