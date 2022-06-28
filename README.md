@@ -1,2 +1,3 @@
-# startpage
-A simple, custom startpage
+# start page
+
+A simple start page, built using Svelte
