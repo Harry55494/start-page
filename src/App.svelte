@@ -21,13 +21,13 @@
 			greeting = 'Good Morning, ' + username;
 			gif = 'https://i.pinimg.com/originals/40/e6/7b/40e67b523c561b4a52c763413683ab99.jpg'
 		} else if (hours < 18 && hours >= 12) {
-			greeting = 'Good Afternoon, ' + name;
+			greeting = 'Good Afternoon, ' + username;
 			gif = 'https://wallpaperaccess.com/full/785654.gif'
 		} else if (hours < 23 && hours >= 18) {
-			greeting = 'Good Evening, ' + name;
+			greeting = 'Good Evening, ' + username;
 			gif = 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.pinimg.com%2Foriginals%2F64%2F05%2F31%2F6405318ac146473a95bfbdcec2b32943.gif&f=1&nofb=1'
 		} else {
-			greeting = 'Good Night, ' + name;
+			greeting = 'Good Night, ' + username;
 			gif = 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcutewallpaper.org%2F21%2F1920x1080-gif%2FPixel-GIF-on-GIFER-by-Arcaneseeker.gif&f=1&nofb=1'
 		}
 		document.body.style.backgroundImage = `url(${gif})`
@@ -85,6 +85,8 @@
 			event.preventDefault();
 			updateStoreValue('name', settings_name.value);
 			toggleSettings();
+			console.log('settings saved');
+			console.log(get(settings));
 		}
 		settings_save.addEventListener('click', settings_submitted);
 
