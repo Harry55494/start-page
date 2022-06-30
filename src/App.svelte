@@ -112,7 +112,7 @@
 				<td><a class=link href = "https://twitter.com/home">Twitter</a></td>
 				<td><a class=link href = "https://www.youtube.com">YouTube</a></td>
 				<td><a class=link href = "https://www.reddit.com">Reddit</a></td>
-				<td><a class=link href = "https://github.com">GitHub</a></td>
+				<td><a class=link href = "https://github.com/harry55494">GitHub</a></td>
 			</tr>
 		</table>
 		</div>
@@ -179,6 +179,12 @@
 		min-width: 300px;
 		margin-right: 15px;
 		margin-left: 15px;
+	}
+
+	label {
+		margin-right: 15px;
+		margin-left: 15px;
+		transform: translateY(8px);
 	}
 
 	table {
