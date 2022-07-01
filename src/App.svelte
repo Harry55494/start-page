@@ -2,7 +2,7 @@
 	import { settings } from './stores.js';
 	import {get} from "svelte/store";
 
-	let version_number = "1.1"
+	let version_number = "1.1.1"
 	let time = new Date();
 
 	let settings_on_show = false;
@@ -140,7 +140,7 @@
 	@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300&display=swap');
 
 	:global(body) {
-		padding-top: 200px;
+		padding-top: 10%;
 		font-family: "Fira Code", sans-serif;
 		color: white;
 		background: linear-gradient(rgba(255, 255, 255, 1), rgba(255, 255, 255, 1)), center;
@@ -155,7 +155,13 @@
 		max-width: 40%;
 		margin: 0 auto;
 		text-align: center;
-		background: linear-gradient( rgba(0, 0, 10, 0.6), rgba(0, 0, 10, 0.8))
+
+		background: rgba( 0, 0, 0, 0.55 );
+		box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+		backdrop-filter: blur( 4px );
+		-webkit-backdrop-filter: blur( 6px );
+
+
 	}
 
 	#settings_window {
