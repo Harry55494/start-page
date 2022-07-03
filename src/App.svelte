@@ -1,9 +1,18 @@
 <script>
-	import { settings } from './stores.js';
+	import { settings, bookmarks } from './stores.js';
 	import {get} from "svelte/store";
 
-	let version_number = "1.1.1"
+	let version_number = "1.2"
 	let time = new Date();
+	let colorScheme;
+
+	let particleColor;
+
+	if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+		colorScheme = "dark";
+	} else {
+		colorScheme = "light";
+	}
 
 	let settings_on_show = false;
 
@@ -14,26 +23,6 @@
 
 	let greeting;
 	let hours = time.getHours();
-	let gif;
-
-	function updateVariables() {
-		if (hours < 12 && hours >= 5) {
-			greeting = 'Good Morning, ' + username;
-			gif = 'https://i.pinimg.com/originals/40/e6/7b/40e67b523c561b4a52c763413683ab99.jpg'
-		} else if (hours < 18 && hours >= 12) {
-			greeting = 'Good Afternoon, ' + username;
-			gif = 'https://wallpaperaccess.com/full/785654.gif'
-		} else if (hours < 23 && hours >= 18) {
-			greeting = 'Good Evening, ' + username;
-			gif = 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.pinimg.com%2Foriginals%2F64%2F05%2F31%2F6405318ac146473a95bfbdcec2b32943.gif&f=1&nofb=1'
-		} else {
-			greeting = 'Good Night, ' + username;
-			gif = 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcutewallpaper.org%2F21%2F1920x1080-gif%2FPixel-GIF-on-GIFER-by-Arcaneseeker.gif&f=1&nofb=1'
-		}
-		document.body.style.backgroundImage = `url(${gif})`
-	}
-
-	updateVariables();
 
 	const updateStoreValue = (entry, new_value) => {
 		settings.update(value => {
@@ -43,6 +32,36 @@
 		console.log(get(settings));
 	}
 
+	// Function to act on the updated variables
+	function updateVariables(check_color = true) {
+		if (hours < 12 && hours >= 5) {
+			greeting = 'Good Morning, ' + username;
+		} else if (hours < 18 && hours >= 12) {
+			greeting = 'Good Afternoon, ' + username;
+		} else if (hours < 23 && hours >= 18) {
+			greeting = 'Good Evening, ' + username;
+		} else {
+			greeting = 'Good Night, ' + username;
+		}
+		if (check_color){
+			if (colorScheme === "dark") {
+				particleColor = "rgba(255, 255, 255)";
+				document.getElementById('canvas').style.backgroundColor = 'black';
+				document.getElementById('settings_button').style.color = 'white';
+				document.getElementById('version_number').style.color = 'white';
+			} else {
+				particleColor = "rgba(0, 0, 0)";
+				document.getElementById('canvas').style.backgroundColor = 'white';
+				document.getElementById('settings_button').style.color = 'black';
+				document.getElementById('version_number').style.color = 'black';
+			}
+		}
+
+	}
+
+	updateVariables(false);
+
+	// Update variables every second
 	setInterval(() => {
 		time = new Date()
 		hours = time.getHours();
@@ -50,23 +69,39 @@
 		if (username === null) {
 			updateStoreValue('name', 'Guest')
 		}
+		window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+			if (event.matches) {
+				colorScheme = "dark";
+			} else {
+				colorScheme = "light";
+			}
+			updateVariables();
+		});
 	}, 1000);
 
+	// Show or Hide Settings pane
 	function toggleSettings() {
 		if (settings_on_show) {
 			console.log('hiding settings')
 			document.getElementById('main_window').style.display = 'block';
 			document.getElementById('settings_window').style.display = 'none';
+			document.getElementById('version_number').style.display = 'none';
+			document.getElementById('settings_button').innerHTML = 'settings';
 			settings_on_show = false;
 		} else {
 			console.log('showing settings')
 			document.getElementById('main_window').style.display = 'none';
 			document.getElementById('settings_window').style.display = 'block';
+			document.getElementById('version_number').style.display = 'block';
+			document.getElementById('settings_button').innerHTML = 'exit settings';
+
 			settings_on_show = true;
 		}
 	}
 
+	// Do these on window load, so that the elements are ready to be used
 	window.onload = function(){
+		updateVariables();
 		const f = document.getElementById('search-form');
 		const q = document.getElementById('query');
 		const search_site = 'https://duckduckgo.com/?q=';
@@ -87,15 +122,115 @@
 			toggleSettings();
 			console.log('settings saved');
 			console.log(get(settings));
+			window.location.reload();
 		}
 		settings_save.addEventListener('click', settings_submitted);
 
-	}
+		function background () {
+			const canvas = document.getElementById('canvas');
+			const ctx = canvas.getContext('2d');
+			ctx.canvas.width = window.innerWidth;
+			ctx.canvas.height = window.innerHeight;
 
+			let particlesArray;
+
+
+			class Particle {
+				constructor(x, y, directionX, directionY, size, colour) {
+					this.x = x;
+					this.y = y;
+					this.speedX = directionX;
+					this.speedY = directionY;
+					this.size = size;
+					this.colour = colour;
+				}
+
+				draw() {
+					ctx.beginPath();
+					ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
+					ctx.fillStyle = this.colour;
+					ctx.fill();
+				}
+
+				update() {
+					if (this.x > canvas.width || this.x < 0) {
+						this.speedX = -this.speedX;
+					}
+					if (this.y > canvas.height || this.y < 0) {
+						this.speedY = -this.speedY;
+					}
+
+					this.x += this.speedX;
+					this.y += this.speedY;
+
+					this.colour = particleColor;
+
+					this.draw();
+
+				}
+
+			}
+
+			function init() {
+				particlesArray = [];
+				let numberOfParticles = (canvas.height * canvas.width) / 7000;
+				for (let i = 0; i < numberOfParticles; i++) {
+					let size = Math.random() * 2 + 1;
+					let x = (Math.random() * ((innerWidth - size * 2) - (size * 2)) + size * 2);
+					let y = (Math.random() * ((innerWidth - size * 2) - (size * 2)) + size * 2);
+					let speedX = (Math.random() * 1.5) - 0.75;
+					let speedY = (Math.random() * 1.5) - 0.75;
+					particlesArray.push(new Particle(x, y, speedX, speedY, size, particleColor));
+				}
+			}
+
+			function animate() {
+				requestAnimationFrame(animate);
+				ctx.clearRect(0, 0, innerWidth, innerHeight);
+				for (let i = 0; i < particlesArray.length; i++) {
+					particlesArray[i].update();
+
+				}
+				connect();
+			}
+
+			function connect(){
+				let opacity = 1;
+				for (let a = 0; a < particlesArray.length; a++) {
+					for (let b = a; b < particlesArray.length; b++) {
+						let distance = ((particlesArray[a].x - particlesArray[b].x) * (particlesArray[a].x - particlesArray[b].x)) + ((particlesArray[a].y - particlesArray[b].y) * (particlesArray[a].y - particlesArray[b].y));
+						if (distance < (canvas.width/5) * (canvas.height/5)) {
+							opacity = 1 - (distance / 20000);
+							ctx.strokeStyle = (particleColor.substring(0, particleColor.length - 1)) + ',' + opacity + ')';
+							ctx.lineWidth = 1;
+							ctx.beginPath();
+							ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
+							ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
+							ctx.stroke();
+						}
+					}
+				}
+			}
+
+			window.addEventListener('resize', function() {
+				canvas.width = window.innerWidth;
+				canvas.height = window.innerHeight;
+				init();
+			});
+
+			init();
+			animate();
+		}
+
+		background();
+
+	}
 
 </script>
 
 <main>
+
+	<canvas id = "canvas"></canvas>
 
 	<div>
 		<div class = "center_box" id = "main_window">
@@ -109,10 +244,11 @@
 		</form>
 		<table id = "links">
 			<tr>
-				<td><a class=link href = "https://twitter.com/home">Twitter</a></td>
-				<td><a class=link href = "https://www.youtube.com">YouTube</a></td>
-				<td><a class=link href = "https://www.reddit.com">Reddit</a></td>
-				<td><a class=link href = "https://github.com/harry55494">GitHub</a></td>
+				{#each get(bookmarks) as bookmark}
+					<td>
+						<a class=link href={bookmark.url}>{bookmark.name}</a>
+					</td>
+				{/each}
 			</tr>
 		</table>
 		</div>
@@ -123,12 +259,12 @@
 				<label for="name">Name:</label>
 				<input type="text" id="name" name="name" value="{username}">
 			</form>
-			<button id ="settings_save" style = "margin-top: 50px;">Save</button>
+			<button id ="settings_save" style = "margin-top: 50px;">Save and Reload</button>
 		</div>
 
 	<footer>
-		<p class = "footer_link" on:click={() => toggleSettings()}>settings</p>
-		<a class = "footer_link" href="https://github.com/Harry55494/startpage">v{version_number}</a>
+		<p class = "footer_link" id = "settings_button" on:click={() => toggleSettings()}>settings</p>
+		<a class = "footer_link" id = "version_number" href="https://github.com/Harry55494/startpage">v{version_number}</a>
 	</footer>
 </div>
 
@@ -139,11 +275,18 @@
 
 	@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300&display=swap');
 
+	#canvas {
+		position: absolute;
+		top: 0; left: 0;
+		width: 100%;
+		height: 100%;
+		background: black;
+	}
+
 	:global(body) {
 		padding-top: 10%;
 		font-family: "Fira Code", sans-serif;
 		color: white;
-		background: linear-gradient(rgba(255, 255, 255, 1), rgba(255, 255, 255, 1)), center;
 		background-size: auto 100%;
 	}
 
@@ -151,17 +294,15 @@
 		min-height: 70%;
 		min-width: 350px;
 		padding: 20px;
-		border-radius:30px;
 		max-width: 40%;
 		margin: 0 auto;
 		text-align: center;
 
-		background: rgba( 0, 0, 0, 0.55 );
-		box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
-		backdrop-filter: blur( 4px );
-		-webkit-backdrop-filter: blur( 6px );
-
-
+		background: rgba( 0, 0, 0, 0.7 );
+		backdrop-filter: blur( 2px );
+		-webkit-backdrop-filter: blur( 2px );
+		border-radius: 10px;
+		border: 1px solid rgba( 255, 255, 255, 0.18 );
 	}
 
 	#settings_window {
@@ -215,6 +356,10 @@
 
 	footer a, footer p {
 		margin: 0 10px;
+	}
+
+	#version_number {
+		display: none;
 	}
 
 	.link {
