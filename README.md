@@ -1,4 +1,8 @@
 # Start Page
 
-A simple start page, built using Svelte in under a day.  
-Contains a customizable name, and different themes for throughout the day
+A simple start page, built using Svelte.  
+
+It contains a customizable name, and light and dark modes based off of your device.
+
+More features to come soon
+

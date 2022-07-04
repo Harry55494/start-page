@@ -2,11 +2,13 @@
 	import { settings, bookmarks } from './stores.js';
 	import {get} from "svelte/store";
 
-	let version_number = "1.2"
+	let version_number = "1.2.1"
 	let time = new Date();
 	let colorScheme;
-
 	let particleColor;
+	let settings_on_show = false;
+	let greeting;
+	let hours = time.getHours();
 
 	if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
 		colorScheme = "dark";
@@ -14,15 +16,10 @@
 		colorScheme = "light";
 	}
 
-	let settings_on_show = false;
-
 	let username;
 	settings.subscribe(function(value) {
 		username = value.name;
 	});
-
-	let greeting;
-	let hours = time.getHours();
 
 	const updateStoreValue = (entry, new_value) => {
 		settings.update(value => {
@@ -153,10 +150,10 @@
 				}
 
 				update() {
-					if (this.x > canvas.width || this.x < 0) {
+					if (this.x - 50 > canvas.width || this.x + 50 < 0) {
 						this.speedX = -this.speedX;
 					}
-					if (this.y > canvas.height || this.y < 0) {
+					if (this.y - 50 > canvas.height || this.y + 50 < 0) {
 						this.speedY = -this.speedY;
 					}
 
@@ -178,8 +175,8 @@
 					let size = Math.random() * 2 + 1;
 					let x = (Math.random() * ((innerWidth - size * 2) - (size * 2)) + size * 2);
 					let y = (Math.random() * ((innerWidth - size * 2) - (size * 2)) + size * 2);
-					let speedX = (Math.random() * 1.5) - 0.75;
-					let speedY = (Math.random() * 1.5) - 0.75;
+					let speedX = ((Math.random() * 1.5) - 0.75) * (2 / size);
+					let speedY = ((Math.random() * 1.5) - 0.75) * (2 / size);
 					particlesArray.push(new Particle(x, y, speedX, speedY, size, particleColor));
 				}
 			}
@@ -251,6 +248,9 @@
 				{/each}
 			</tr>
 		</table>
+			{#if username === 'Friend'}
+				<p>Tip - Click 'settings' in the bottom right to change your name</p>
+			{/if}
 		</div>
 
 		<div class = "center_box" id = "settings_window">
@@ -299,8 +299,8 @@
 		text-align: center;
 
 		background: rgba( 0, 0, 0, 0.7 );
-		backdrop-filter: blur( 2px );
-		-webkit-backdrop-filter: blur( 2px );
+		backdrop-filter: blur( 4px );
+		-webkit-backdrop-filter: blur( 4px );
 		border-radius: 10px;
 		border: 1px solid rgba( 255, 255, 255, 0.18 );
 	}

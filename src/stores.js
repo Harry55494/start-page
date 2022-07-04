@@ -1,7 +1,7 @@
 import { persistStore } from "./persistStore";
 
 const defaultSettings = {
-    name: 'Harrison',
+    name: 'Friend',
     search_engine: 'duckduckgo'
 }
 
