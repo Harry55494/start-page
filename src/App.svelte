@@ -170,13 +170,13 @@
 
 			function init() {
 				particlesArray = [];
-				let numberOfParticles = (canvas.height * canvas.width) / 7000;
+				let numberOfParticles = (canvas.height * canvas.width) / 5500;
 				for (let i = 0; i < numberOfParticles; i++) {
 					let size = Math.random() * 2 + 1;
 					let x = (Math.random() * ((innerWidth - size * 2) - (size * 2)) + size * 2);
 					let y = (Math.random() * ((innerWidth - size * 2) - (size * 2)) + size * 2);
-					let speedX = ((Math.random() * 1.5) - 0.75) * (2 / size);
-					let speedY = ((Math.random() * 1.5) - 0.75) * (2 / size);
+					let speedX = ((Math.random() * 1.5) - 0.75) * (1.8 / size);
+					let speedY = ((Math.random() * 1.5) - 0.75) * (1.8 / size);
 					particlesArray.push(new Particle(x, y, speedX, speedY, size, particleColor));
 				}
 			}
