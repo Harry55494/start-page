@@ -173,8 +173,8 @@
 				let numberOfParticles = (canvas.height * canvas.width) / 5500;
 				for (let i = 0; i < numberOfParticles; i++) {
 					let size = Math.random() * 2 + 1;
-					let x = (Math.random() * ((innerWidth - size * 2) - (size * 2)) + size * 2);
-					let y = (Math.random() * ((innerWidth - size * 2) - (size * 2)) + size * 2);
+					let x = ((Math.random() * (canvas.width + 30)) - 15);
+					let y = ((Math.random() * (canvas.height + 30)) - 15);
 					let speedX = ((Math.random() * 1.5) - 0.75) * (1.8 / size);
 					let speedY = ((Math.random() * 1.5) - 0.75) * (1.8 / size);
 					particlesArray.push(new Particle(x, y, speedX, speedY, size, particleColor));
@@ -196,7 +196,7 @@
 				for (let a = 0; a < particlesArray.length; a++) {
 					for (let b = a; b < particlesArray.length; b++) {
 						let distance = ((particlesArray[a].x - particlesArray[b].x) * (particlesArray[a].x - particlesArray[b].x)) + ((particlesArray[a].y - particlesArray[b].y) * (particlesArray[a].y - particlesArray[b].y));
-						if (distance < (canvas.width/5) * (canvas.height/5)) {
+						if (distance < (canvas.width/5.5) * (canvas.height/5.5)) {
 							opacity = 1 - (distance / 20000);
 							ctx.strokeStyle = (particleColor.substring(0, particleColor.length - 1)) + ',' + opacity + ')';
 							ctx.lineWidth = 1;
@@ -263,8 +263,8 @@
 		</div>
 
 	<footer>
-		<p class = "footer_link" id = "settings_button" on:click={() => toggleSettings()}>settings</p>
 		<a class = "footer_link" id = "version_number" href="https://github.com/Harry55494/startpage">v{version_number}</a>
+		<p class = "footer_link" id = "settings_button" on:click={() => toggleSettings()}>settings</p>
 	</footer>
 </div>
 
