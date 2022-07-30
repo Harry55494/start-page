@@ -6,7 +6,7 @@
 	let version_number = "1.2.1"
 	let time = new Date();
 	let colorScheme;
-	let particleColor;
+	let particleColor = 'rgba(255, 255, 255)';
 	let settings_on_show = false;
 	let greeting;
 	let hours = time.getHours();
@@ -22,12 +22,16 @@
 		username = value.name;
 	});
 
-	const updateStoreValue = (entry, new_value) => {
+	const updateSettingsValue = (entry, new_value) => {
 		settings.update(value => {
 			value[entry] = new_value;
 			return value;
 		});
 		console.log(get(settings));
+	}
+
+	const updateBookmarks = (new_bookmarks) => {
+		bookmarks.set(new_bookmarks)
 	}
 
 	// Function to act on the updated variables
@@ -65,7 +69,7 @@
 		hours = time.getHours();
 		updateVariables()
 		if (username === null) {
-			updateStoreValue('name', 'Guest')
+			updateSettingsValue('name', 'Guest')
 		}
 		window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
 			if (event.matches) {
@@ -97,6 +101,8 @@
 		}
 	}
 
+	let bookmarks_delete_list = ['*Name*']
+
 	// Do these on window load, so that the elements are ready to be used
 	window.onload = function(){
 		updateVariables();
@@ -116,8 +122,25 @@
 
 		function settings_submitted(event) {
 			event.preventDefault();
-			updateStoreValue('name', settings_name.value);
+			updateSettingsValue('name', settings_name.value);
+
+			const new_bookmarks_urls = document.querySelectorAll('.bookmark_entry_url');
+			const new_bookmarks_names = document.querySelectorAll('.bookmark_entry_name');
+			let new_bookmarks = [];
+			for (let i = 0; i < new_bookmarks_urls.length; i++){
+				if (new_bookmarks_names[i].value === '*Name*'){
+					continue
+				}
+				new_bookmarks.push({
+					name: new_bookmarks_names[i].value,
+					url: new_bookmarks_urls[i].value
+				})
+			}
+
+			updateBookmarks(new_bookmarks)
+
 			toggleSettings();
+
 			console.log('settings saved');
 			console.log(get(settings));
 			window.location.reload();
@@ -151,7 +174,7 @@
 			</tr>
 		</table>
 			{#if username === 'Friend'}
-				<p>Tip - Click 'settings' in the bottom right to change your name</p>
+				<p>Tip - Click 'settings' in the bottom right to change your name, or adjust the bookmarks</p>
 			{/if}
 		</div>
 
@@ -161,6 +184,23 @@
 				<label for="name">Name:</label>
 				<input type="text" id="name" name="name" value="{username}">
 			</form>
+			<!--
+			<h2>Bookmarks</h2>
+			{#each get(bookmarks) as bookmark}
+				<form class = "bookmark_form">
+					<label for="name">Name:</label>
+					<input class = "bookmark_entry_name" type="text" value="{bookmark.name}">
+					<label>URL:</label>
+					<input class="bookmark_entry_url" type="text" value="{bookmark.url}">
+				</form>
+			{/each}
+			<form class = "bookmark_form">
+				<label for="name">Name:</label>
+				<input class = "bookmark_entry_name" type="text" value="*Name*">
+				<label>URL:</label>
+				<input class="bookmark_entry_url" type="text" value="*URL*">
+
+			</form> -->
 			<button id ="settings_save" style = "margin-top: 50px;">Save and Reload</button>
 		</div>
 
@@ -179,14 +219,13 @@
 
 
 	:global(body) {
-		padding-top: 10%;
+		padding-top: 8%;
 		font-family: "Fira Code", sans-serif;
 		color: white;
 		background-size: auto 100%;
 	}
 
 	.center_box {
-		min-height: 70%;
 		min-width: 350px;
 		padding: 20px;
 		max-width: 40%;
@@ -237,6 +276,15 @@
 
 	table td {
 		padding: 20px;
+	}
+
+
+	.bookmark_form{
+		padding: 10px;
+	}
+
+	.bookmark_form input {
+		min-width: 100px;
 	}
 
 	footer {
