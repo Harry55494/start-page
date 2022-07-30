@@ -3,7 +3,7 @@
 	import {get} from "svelte/store";
 	import BackgroundParticles from "./BackgroundParticles.svelte";
 
-	let version_number = "1.2.1"
+	let version_number = "1.2.2"
 	let time = new Date();
 	let colorScheme;
 	let particleColor = 'rgba(255, 255, 255)';
