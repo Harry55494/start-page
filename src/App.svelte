@@ -115,7 +115,7 @@
 			window.location.href = search_site + q.value;
 		}
 		f.addEventListener('submit', submitted);
-		//document.getElementById('query').focus();
+		document.getElementById('query').focus();
 
 		const settings_name = document.getElementById('name');
 		const settings_save = document.getElementById('settings_save');
