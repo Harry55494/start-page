@@ -1,8 +1,12 @@
 # Start Page
 
-A simple start page, built using Svelte.  
+A simple start page, built using Svelte  
 
-It contains a customizable name, and light and dark modes based off of your device.
+### Features
+
+- Animated Particles Background
+- Device-based light and dark modes
+- Changeable greeting name
 
 More features to come soon
 
