@@ -260,6 +260,7 @@
 		min-width: 300px;
 		margin-right: 15px;
 		margin-left: 15px;
+		-webkit-tap-highlight-color: transparent;
 	}
 
 	label {

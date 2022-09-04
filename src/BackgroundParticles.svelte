@@ -1,5 +1,7 @@
 <script>
 
+    // Base code taken from https://www.youtube.com/watch?v=d620nV6bp0A, but modified to add relational speed, more sizes and different connectivity stl
+
     import {onMount} from 'svelte';
 
     export var particleColor;
