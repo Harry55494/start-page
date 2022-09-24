@@ -137,7 +137,7 @@
 				})
 			}
 
-			updateBookmarks(new_bookmarks)
+			//updateBookmarks(new_bookmarks)
 
 			toggleSettings();
 
