@@ -112,7 +112,11 @@
 
 		function submitted(event) {
 			event.preventDefault();
-			window.location.href = search_site + q.value;
+			if (q.value.includes('://')) {
+				window.location.href = q.value;
+			} else {
+				window.location.href = search_site + q.value;
+			}
 		}
 		f.addEventListener('submit', submitted);
 		document.getElementById('query').focus();
