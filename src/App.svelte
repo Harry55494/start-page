@@ -112,6 +112,14 @@
 
 		function submitted(event) {
 			event.preventDefault();
+
+			for (let i = 0; i < get(bookmarks).length; i++) {
+				if (q.value.toLowerCase() === get(bookmarks)[i].name.toLowerCase()) {
+					window.location.href = get(bookmarks)[i].url;
+					return;
+				}
+			}
+
 			if (q.value.includes('://')) {
 				window.location.href = q.value;
 			} else {
