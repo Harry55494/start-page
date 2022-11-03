@@ -81,7 +81,7 @@
                     for (let b = a; b < particlesArray.length; b++) {
                         let distance = ((particlesArray[a].x - particlesArray[b].x) * (particlesArray[a].x - particlesArray[b].x)) + ((particlesArray[a].y - particlesArray[b].y) * (particlesArray[a].y - particlesArray[b].y));
                         if (distance < (canvas.width/15) * (canvas.height/15)) {
-                            opacity = 1 - (distance / 5000);
+                            opacity = 1 - (distance / 5500);
                             ctx.strokeStyle = (particleColor.substring(0, particleColor.length - 1)) + ',' + opacity + ')';
                             ctx.lineWidth = 1;
                             ctx.beginPath();
