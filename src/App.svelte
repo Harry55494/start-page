@@ -136,6 +136,7 @@
 			event.preventDefault();
 			updateSettingsValue('name', settings_name.value);
 
+			/*
 			const new_bookmarks_urls = document.querySelectorAll('.bookmark_entry_url');
 			const new_bookmarks_names = document.querySelectorAll('.bookmark_entry_name');
 			let new_bookmarks = [];
@@ -150,6 +151,8 @@
 			}
 
 			//updateBookmarks(new_bookmarks)
+
+			*/
 
 			toggleSettings();
 
@@ -173,7 +176,7 @@
 				It's currently {time.toLocaleTimeString("en-GB", {hour: "2-digit", minute: "2-digit"})} on {time.toLocaleDateString("en-GB", {weekday: "long",year: 	"numeric",month:"long",day:"2-digit"})}
 			</p>
 		<form role="search" id="search-form">
-			<input type="search" id="query" name="q" placeholder="Search duckduckgo...">
+			<input type="search" autocomplete="off" id="query" name="q" placeholder="Search duckduckgo...">
 			<button>Search</button>
 		</form>
 		<table id = "links">
@@ -194,7 +197,7 @@
 			<h1 class="greeting">Settings</h1>
 			<form id = "settings_form">
 				<label for="name">Name:</label>
-				<input type="text" id="name" name="name" value="{username}">
+				<input type="text" autocomplete="off" id="name" name="name" value="{username}">
 			</form>
 			<!--
 			<h2>Bookmarks</h2>

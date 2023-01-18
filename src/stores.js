@@ -9,17 +9,20 @@ export const settings = persistStore('settings', defaultSettings);
 
 const defaultBookmarks = [
     {
-        name: 'Twitter',
-        url: 'https://twitter.com/',
-    }, {
-        name: 'YouTube',
-        url: 'https://www.youtube.com/',
-    }, {
-        name: 'Reddit',
-        url: 'https://www.reddit.com/',
-    } , {
         name: 'GitHub',
         url: 'https://github.com'
+    },
+    {
+        name: 'YouTube',
+        url: 'https://www.youtube.com/',
+    },
+    {
+        name: 'Reddit',
+        url: 'https://www.reddit.com/',
+    },
+    {
+        name: 'LeetCode',
+        url: 'https://leetcode.com/problemset/all/',
     }
 ]
 

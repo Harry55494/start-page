@@ -59,8 +59,8 @@
                     let size = Math.random() * 2 + 1;
                     let x = ((Math.random() * (canvas.width + 30)) - 15);
                     let y = ((Math.random() * (canvas.height + 30)) - 15);
-                    let speedX = ((Math.random() * size) - 0.75) * (1 / (1.5*size));
-                    let speedY = ((Math.random() * size) - 0.75) * (1 / (1.5*size));
+                    let speedX = ((Math.random() * size) - 0.75) * (1 / (size));
+                    let speedY = ((Math.random() * size) - 0.75) * (1 / (size));
                     particlesArray.push(new Particle(x, y, speedX, speedY, size, particleColor));
                 }
             }
