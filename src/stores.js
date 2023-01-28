@@ -10,7 +10,7 @@ export const settings = persistStore('settings', defaultSettings);
 const defaultBookmarks = [
     {
         name: 'GitHub',
-        url: 'https://github.com'
+        url: 'https://github.com/Harry55494'
     },
     {
         name: 'YouTube',
